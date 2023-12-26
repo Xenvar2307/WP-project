@@ -5,11 +5,12 @@ middle_width = screen_width / 2
 middle_height = screen_height / 2
 
 bottom_panel_height = 250
-ground_level = screen_height - bottom_panel_height - 80
+ground_height = 80
+ground_level = screen_height - bottom_panel_height - ground_height
 
 
 # characters
-character_width_normal = 120
-character_height_normal = 240
-character_padding = 25
+character_width_normal = 144  # icons 48 * 3
+character_height_normal = 240  # icons 48 * 5
+character_padding = 13  # for animations and spacing
 team_padding = 60
