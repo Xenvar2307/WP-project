@@ -8,13 +8,14 @@ clock = pygame.time.Clock()
 
 
 # window size
-screen_width = 800
-screen_height = 600
+screen_width = 1280
+screen_height = 720
 
 # get screen setup
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("WP-project")
 # pygame.display.set_icon()
+dev_mode = True
 
 # STYLES:
 
@@ -26,6 +27,9 @@ red = (255, 0, 0)
 green = (0, 255, 0)
 blue = (0, 0, 255)
 black = (0, 0, 0)
+yellow = (255, 255, 0)
+
+menu_background_color = (105, 93, 74)
 
 
 def reset_screen():
@@ -33,16 +37,22 @@ def reset_screen():
 
 
 class MainMenu_module:
-    def run(self):
+    def run(self, dev_mode):
         background_img = pygame.image.load(
             "img/Background/background.png"
         ).convert_alpha()
         run = True
         Next_module = -1
-        reset_screen()
 
         while run:
-            screen.blit(background_img, (0, 0))
+            # draw basic image
+            screen.fill(menu_background_color)
+
+            if dev_mode:
+                # Game title
+                pygame.draw.rect(
+                    screen, yellow, (screen_width / 2 - 300, 30, 600, 250), width=1
+                )
 
             # event control
             for event in pygame.event.get():
@@ -64,15 +74,13 @@ class MainMenu_module:
 
 
 class Battle_module:
-    def run(self):
+    def run(self, dev_mode):
         background_img = pygame.image.load(
             "img/Background/background.png"
         ).convert_alpha()
         panel_img = pygame.image.load("img/Icons/panel.png").convert_alpha()
         run = True
         Next_module = -1
-
-        reset_screen()
 
         while run:
             screen.blit(background_img, (0, 0))
@@ -108,11 +116,12 @@ Battle = Battle_module()
 current_module = 0
 
 while current_module != -1:
+    reset_screen()
     match current_module:
         case 0:
-            current_module = MainMenu.run()
+            current_module = MainMenu.run(dev_mode)
         case 1:
-            current_module = Battle.run()
+            current_module = Battle.run(dev_mode)
         case _:
             print("Module number not recognised!")
             current_module = -1
