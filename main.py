@@ -1,4 +1,5 @@
 import pygame
+from sizes import *
 
 pygame.init()
 
@@ -6,10 +7,6 @@ pygame.init()
 fps = 60
 clock = pygame.time.Clock()
 
-
-# window size
-screen_width = 1280
-screen_height = 720
 
 # get screen setup
 screen = pygame.display.set_mode((screen_width, screen_height))
@@ -20,7 +17,7 @@ dev_mode = True
 # STYLES:
 
 # fonts
-font_main = pygame.font.SysFont("Caslon Antique", 26)
+font_main = pygame.font.SysFont("Caslon Antique", 30)
 
 # colors
 red = (255, 0, 0)
@@ -30,10 +27,17 @@ black = (0, 0, 0)
 yellow = (255, 255, 0)
 
 menu_background_color = (105, 93, 74)
+battle_background_color = (69, 58, 48)
 
 
+# fill screen with black to reset vision
 def reset_screen():
     screen.fill(black)
+
+
+def draw_text(text, font, text_col, x, y):
+    img = font.render(text, True, text_col)
+    screen.blit(img, (x, y))
 
 
 class MainMenu_module:
@@ -53,6 +57,24 @@ class MainMenu_module:
                 pygame.draw.rect(
                     screen, yellow, (screen_width / 2 - 300, 30, 600, 250), width=1
                 )
+                draw_text(
+                    "Title of the game", font_main, yellow, screen_width / 2 - 300, 30
+                )
+                # run button
+                pygame.draw.rect(
+                    screen, yellow, (screen_width / 2 - 200, 370, 400, 50), width=1
+                )
+                draw_text("Run button", font_main, yellow, screen_width / 2 - 200, 370)
+                # 2nd button
+                pygame.draw.rect(
+                    screen, yellow, (screen_width / 2 - 200, 440, 400, 50), width=1
+                )
+                draw_text("2nd button", font_main, yellow, screen_width / 2 - 200, 440)
+                # 3rd button
+                pygame.draw.rect(
+                    screen, yellow, (screen_width / 2 - 200, 510, 400, 50), width=1
+                )
+                draw_text("3rd button", font_main, yellow, screen_width / 2 - 200, 510)
 
             # event control
             for event in pygame.event.get():
@@ -75,16 +97,136 @@ class MainMenu_module:
 
 class Battle_module:
     def run(self, dev_mode):
-        background_img = pygame.image.load(
-            "img/Background/background.png"
-        ).convert_alpha()
-        panel_img = pygame.image.load("img/Icons/panel.png").convert_alpha()
         run = True
         Next_module = -1
 
         while run:
-            screen.blit(background_img, (0, 0))
-            screen.blit(panel_img, (0, screen_height - 150))
+            # drawing background
+            screen.fill(battle_background_color)
+
+            if dev_mode:
+                # bottom panel
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        0,
+                        screen_height - bottom_panel_height,
+                        screen_width,
+                        bottom_panel_height,
+                    ),
+                    width=1,
+                )
+                draw_text(
+                    "Bottom panel",
+                    font_main,
+                    yellow,
+                    0,
+                    screen_height - bottom_panel_height,
+                )
+                # allies
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        team_padding + character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        team_padding + character_width_normal + 3 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        team_padding
+                        + 2 * character_width_normal
+                        + 5 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        team_padding
+                        + 3 * character_width_normal
+                        + 7 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                # enemies
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        middle_width + team_padding + character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        middle_width
+                        + team_padding
+                        + character_width_normal
+                        + 3 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        middle_width
+                        + team_padding
+                        + 2 * character_width_normal
+                        + 5 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
+                pygame.draw.rect(
+                    screen,
+                    yellow,
+                    (
+                        middle_width
+                        + team_padding
+                        + 3 * character_width_normal
+                        + 7 * character_padding,
+                        ground_level - character_height_normal,
+                        character_width_normal,
+                        character_height_normal,
+                    ),
+                    width=1,
+                )
 
             # event control
             for event in pygame.event.get():
