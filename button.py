@@ -3,11 +3,11 @@ import pygame
 
 class Button:
     def __init__(self, surface, image, x, y, width, height):
-        self.image = pygame.transform.scale(image, width, height)
+        self.image = pygame.transform.scale(image, (width, height))
         self.rect = self.image.get_rect()
         self.rect.topleft = (x, y)
         self.clicked = False
-        self.surface - surface
+        self.surface = surface
 
     def draw(self):
         # return value, tells us if we should act

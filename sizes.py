@@ -8,6 +8,10 @@ bottom_panel_height = 250
 ground_height = 80
 ground_level = screen_height - bottom_panel_height - ground_height
 
+# menu module
+menu_button_width = 400
+menu_button_height = 50
+
 
 # characters
 character_width_normal = 144  # icons 48 * 3

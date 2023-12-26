@@ -1,6 +1,6 @@
 import pygame
 from sizes import *
-import button
+from button import Button
 
 pygame.init()
 
@@ -30,6 +30,10 @@ yellow = (255, 255, 0)
 menu_background_color = (105, 93, 74)
 battle_background_color = (69, 58, 48)
 
+# load images
+# menu module
+menu_run_button = pygame.image.load("img/buttons/menu_run.png").convert_alpha()
+
 
 # fill screen with black to reset vision
 def reset_screen():
@@ -43,15 +47,27 @@ def draw_text(text, font, text_col, x, y):
 
 class MainMenu_module:
     def run(self, dev_mode):
-        background_img = pygame.image.load(
-            "img/Background/background.png"
-        ).convert_alpha()
         run = True
         Next_module = -1
+
+        # create menu buttons
+        Run_button = Button(
+            screen,
+            menu_run_button,
+            middle_width - menu_button_width / 2,
+            370,
+            menu_button_width,
+            menu_button_height,
+        )
 
         while run:
             # draw basic image
             screen.fill(menu_background_color)
+
+            # menu buttons
+            if Run_button.draw():
+                run = False
+                Next_module = 1
 
             if dev_mode:
                 # Game title
@@ -84,9 +100,6 @@ class MainMenu_module:
                     Next_module = -1
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     clicked = True
-                    # TEMPORARY
-                    run = False
-                    Next_module = 1
                 else:
                     clicked = False
 
@@ -236,9 +249,6 @@ class Battle_module:
                     Next_module = -1
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     clicked = True
-                    # TEMPORARY
-                    run = False
-                    Next_module = 0
                 else:
                     clicked = False
 
