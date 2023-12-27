@@ -1,6 +1,6 @@
 import pygame
 from sizes import *
-from button import Button
+from button import *
 
 pygame.init()
 
@@ -19,6 +19,7 @@ dev_mode = True
 
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
+font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 120)
 
 # colors
 red = (255, 0, 0)
@@ -42,6 +43,9 @@ battle_return_to_main_menu_button = pygame.image.load(
     "img/buttons/return_to_main_menu.png"
 ).convert_alpha()
 
+# global classes
+BFactory_GreyText = ButtonFactory_GreyText()
+
 
 # fill screen with black to reset vision
 def reset_screen():
@@ -59,27 +63,30 @@ class MainMenu_module:
         Next_module = -1
 
         # create menu buttons
-        Run_button = Button(
+        Run_button = BFactory_GreyText.factory(
             screen,
-            menu_run_button,
+            "Run",
+            font_caslon_for_scaling,
             middle_width - menu_button_width / 2,
             title_height + menu_button_padding,
             menu_button_width,
             menu_button_height,
         )
 
-        second_button = Button(
+        second_button = BFactory_GreyText.factory(
             screen,
-            menu_place_holder_button,
+            "Second Button",
+            font_caslon_for_scaling,
             middle_width - menu_button_width / 2,
             title_height + 3 * menu_button_padding + 1 * menu_button_height,
             menu_button_width,
             menu_button_height,
         )
 
-        third_button = Button(
+        third_button = BFactory_GreyText.factory(
             screen,
-            menu_place_holder_button,
+            "Third Button",
+            font_caslon_for_scaling,
             middle_width - menu_button_width / 2,
             title_height + 5 * menu_button_padding + 2 * menu_button_height,
             menu_button_width,
@@ -195,8 +202,14 @@ class Battle_module:
         run = True
         Next_module = -1
 
-        return_to_main_button = Button(
-            screen, battle_return_to_main_menu_button, screen_width - 250, 0, 250, 50
+        return_to_main_button = BFactory_GreyText.factory(
+            screen,
+            "Return to Main Menu",
+            font_caslon_for_scaling,
+            screen_width - 250,
+            0,
+            250,
+            50,
         )
 
         while run:
