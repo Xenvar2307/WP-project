@@ -33,6 +33,14 @@ battle_background_color = (69, 58, 48)
 # load images
 # menu module
 menu_run_button = pygame.image.load("img/buttons/menu_run.png").convert_alpha()
+menu_place_holder_button = pygame.image.load(
+    "img/buttons/menu_place_holder.png"
+).convert_alpha()
+
+# battle module
+battle_return_to_main_menu_button = pygame.image.load(
+    "img/buttons/return_to_main_menu.png"
+).convert_alpha()
 
 
 # fill screen with black to reset vision
@@ -55,7 +63,25 @@ class MainMenu_module:
             screen,
             menu_run_button,
             middle_width - menu_button_width / 2,
-            370,
+            title_height + menu_button_padding,
+            menu_button_width,
+            menu_button_height,
+        )
+
+        second_button = Button(
+            screen,
+            menu_place_holder_button,
+            middle_width - menu_button_width / 2,
+            title_height + 3 * menu_button_padding + 1 * menu_button_height,
+            menu_button_width,
+            menu_button_height,
+        )
+
+        third_button = Button(
+            screen,
+            menu_place_holder_button,
+            middle_width - menu_button_width / 2,
+            title_height + 5 * menu_button_padding + 2 * menu_button_height,
             menu_button_width,
             menu_button_height,
         )
@@ -69,29 +95,84 @@ class MainMenu_module:
                 run = False
                 Next_module = 1
 
+            if second_button.draw():
+                pass
+
+            if third_button.draw():
+                pass
+
             if dev_mode:
                 # Game title
                 pygame.draw.rect(
-                    screen, yellow, (screen_width / 2 - 300, 30, 600, 250), width=1
+                    screen,
+                    yellow,
+                    (middle_width - title_width / 2, 0, title_width, title_height),
+                    width=1,
                 )
                 draw_text(
-                    "Title of the game", font_main, yellow, screen_width / 2 - 300, 30
+                    "Title of the game",
+                    font_main,
+                    yellow,
+                    middle_width - title_width / 2,
+                    0,
                 )
                 # run button
                 pygame.draw.rect(
-                    screen, yellow, (screen_width / 2 - 200, 370, 400, 50), width=1
+                    screen,
+                    yellow,
+                    (
+                        middle_width - menu_button_width / 2,
+                        title_height + menu_button_padding,
+                        menu_button_width,
+                        menu_button_height,
+                    ),
+                    width=1,
                 )
-                draw_text("Run button", font_main, yellow, screen_width / 2 - 200, 370)
+                draw_text(
+                    "Run button",
+                    font_main,
+                    yellow,
+                    middle_width - menu_button_width / 2,
+                    title_height + menu_button_padding,
+                )
                 # 2nd button
                 pygame.draw.rect(
-                    screen, yellow, (screen_width / 2 - 200, 440, 400, 50), width=1
+                    screen,
+                    yellow,
+                    (
+                        middle_width - menu_button_width / 2,
+                        title_height + 3 * menu_button_padding + 1 * menu_button_height,
+                        menu_button_width,
+                        menu_button_height,
+                    ),
+                    width=1,
                 )
-                draw_text("2nd button", font_main, yellow, screen_width / 2 - 200, 440)
+                draw_text(
+                    "2nd button",
+                    font_main,
+                    yellow,
+                    middle_width - menu_button_width / 2,
+                    title_height + 3 * menu_button_padding + 1 * menu_button_height,
+                )
                 # 3rd button
                 pygame.draw.rect(
-                    screen, yellow, (screen_width / 2 - 200, 510, 400, 50), width=1
+                    screen,
+                    yellow,
+                    (
+                        middle_width - menu_button_width / 2,
+                        title_height + 5 * menu_button_padding + 2 * menu_button_height,
+                        menu_button_width,
+                        menu_button_height,
+                    ),
+                    width=1,
                 )
-                draw_text("3rd button", font_main, yellow, screen_width / 2 - 200, 510)
+                draw_text(
+                    "3rd button",
+                    font_main,
+                    yellow,
+                    middle_width - menu_button_width / 2,
+                    title_height + 5 * menu_button_padding + 2 * menu_button_height,
+                )
 
             # event control
             for event in pygame.event.get():
@@ -114,9 +195,17 @@ class Battle_module:
         run = True
         Next_module = -1
 
+        return_to_main_button = Button(
+            screen, battle_return_to_main_menu_button, screen_width - 250, 0, 250, 50
+        )
+
         while run:
             # drawing background
             screen.fill(battle_background_color)
+
+            if return_to_main_button.draw():
+                run = False
+                Next_module = 0
 
             if dev_mode:
                 # bottom panel

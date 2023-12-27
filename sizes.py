@@ -11,6 +11,10 @@ ground_level = screen_height - bottom_panel_height - ground_height
 # menu module
 menu_button_width = 400
 menu_button_height = 50
+menu_button_padding = 10
+
+title_width = 800
+title_height = 400
 
 
 # characters
