@@ -28,5 +28,6 @@ class Basic_Character:
         self.health_bars.add(new_health_bar)
         new_health_bar.notify(self)
 
-    def remove_health_bar(self, health_bar):
+    def remove_health_bar(self, health_bar: Health_bar):
         self.health_bars.discard(health_bar)
+        return health_bar

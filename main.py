@@ -1,4 +1,5 @@
 import pygame
+from enum import Enum
 from sizes import *
 from button import *
 from health_bar import *
@@ -49,10 +50,16 @@ def draw_text(text, font, text_col, x, y):
     screen.blit(img, (x, y))
 
 
+class Exit_app_module:
+    def run(self):
+        pygame.quit()
+        return Module_names.Exit_app
+
+
 class MainMenu_module:
     def run(self, dev_mode):
         run = True
-        Next_module = -1
+        Next_module = Module_names.Exit_app
 
         # create menu buttons
         Run_button = BFactory_GreyText.factory(
@@ -92,7 +99,7 @@ class MainMenu_module:
             # menu buttons
             if Run_button.draw():
                 run = False
-                Next_module = 1
+                Next_module = Module_names.Battle
 
             if second_button.draw():
                 pass
@@ -177,7 +184,7 @@ class MainMenu_module:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                    Next_module = -1
+                    Next_module = Module_names.Exit_app
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     clicked = True
                 else:
@@ -192,7 +199,7 @@ class MainMenu_module:
 class Battle_module:
     def run(self, dev_mode):
         run = True
-        Next_module = -1
+        Next_module = Module_names.Exit_app
 
         return_to_main_button = BFactory_GreyText.factory(
             screen,
@@ -222,7 +229,7 @@ class Battle_module:
 
             if return_to_main_button.draw():
                 run = False
-                Next_module = 0
+                Next_module = Module_names.Main_menu
 
             if dev_mode:
                 # bottom panel
@@ -352,7 +359,7 @@ class Battle_module:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     run = False
-                    Next_module = -1
+                    Next_module = Module_names.Exit_app
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     clicked = True
                 else:
@@ -364,25 +371,18 @@ class Battle_module:
         return Next_module
 
 
-# starting module control
-# -1 exit
-# 0
-MainMenu = MainMenu_module()
-# 1
-Battle = Battle_module()
+# module control
+class Module_names(Enum):
+    Exit_app = Exit_app_module()
+    Main_menu = MainMenu_module()
+    Battle = Battle_module()
+
 
 # main control
-current_module = 0
+current_module = Module_names.Main_menu
 
-while current_module != -1:
+while current_module != Module_names.Exit_app:
     reset_screen()
-    match current_module:
-        case 0:
-            current_module = MainMenu.run(dev_mode)
-        case 1:
-            current_module = Battle.run(dev_mode)
-        case _:
-            print("Module number not recognised!")
-            current_module = -1
+    current_module = current_module.value.run(dev_mode)
 
 pygame.quit()

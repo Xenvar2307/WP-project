@@ -1,4 +1,7 @@
 import pygame
+from styles import *
+from sizes import *
+from interfaces import *
 
 
 class BasicButton:
