@@ -1,6 +1,9 @@
 import pygame
 from sizes import *
 from button import *
+from health_bar import *
+from character import *
+from styles import *
 
 pygame.init()
 
@@ -15,21 +18,9 @@ pygame.display.set_caption("WP-project")
 # pygame.display.set_icon()
 dev_mode = True
 
-# STYLES:
-
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
 font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 120)
-
-# colors
-red = (255, 0, 0)
-green = (0, 255, 0)
-blue = (0, 0, 255)
-black = (0, 0, 0)
-yellow = (255, 255, 0)
-
-menu_background_color = (105, 93, 74)
-battle_background_color = (69, 58, 48)
 
 # load images
 # menu module
@@ -212,9 +203,21 @@ class Battle_module:
             50,
         )
 
+        test_character = Character(
+            "Test character",
+            15,
+            30,
+            team_padding + character_padding,
+            ground_level - character_height_normal,
+        )
+
+        test_character.add_health_bar(Health_bar_normal(test_character))
+
         while run:
             # drawing background
             screen.fill(battle_background_color)
+
+            test_character.draw(screen)
 
             if return_to_main_button.draw():
                 run = False
