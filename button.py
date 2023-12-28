@@ -1,7 +1,7 @@
 import pygame
 
 
-class Button:
+class BasicButton:
     def __init__(self, surface, image, x, y, width, height):
         self.image = pygame.transform.scale(image, (width, height))
         self.rect = self.image.get_rect()
@@ -32,7 +32,7 @@ class Button:
         return action
 
 
-class ButtonFactory_GreyText:
+class ButtonFactory_GreyMiddleText:
     def __init__(self) -> None:
         self.back_image = pygame.image.load("img/buttons/empty_grey_background.png")
 
@@ -87,4 +87,4 @@ class ButtonFactory_GreyText:
         # correct
         background = background.convert_alpha()
 
-        return Button(surface, background, x, y, width, height)
+        return BasicButton(surface, background, x, y, width, height)

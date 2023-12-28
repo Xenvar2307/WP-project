@@ -1,9 +1,10 @@
 import pygame
 from styles import *
 from sizes import *
+from interfaces import *
 
 
-class Character:
+class Basic_Character:
     def __init__(self, name, HP, MAX_HP, x, y):
         self.name = name
         self.current_hp = HP
@@ -23,7 +24,7 @@ class Character:
         for HB in self.health_bars:
             HB.draw(surface)
 
-    def add_health_bar(self, new_health_bar):
+    def add_health_bar(self, new_health_bar: Health_bar):
         self.health_bars.add(new_health_bar)
         new_health_bar.notify(self)
 

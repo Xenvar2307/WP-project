@@ -1,10 +1,11 @@
 import pygame
 from styles import *
 from sizes import *
+from interfaces import *
 
 
 class Health_bar_normal:
-    def __init__(self, character):
+    def __init__(self, character: Character):
         self.id = "normal_health_bar"
         self.current_hp = character.current_hp
         self.max_hp = character.max_hp
@@ -12,7 +13,7 @@ class Health_bar_normal:
         self.x = character.x
         self.y = character.y + character_height_normal
 
-    def notify(self, character):
+    def notify(self, character: Character):
         self.current_hp = character.current_hp
         self.max_hp = character.max_hp
         self.character_name = character.name

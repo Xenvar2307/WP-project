@@ -4,6 +4,7 @@ from button import *
 from health_bar import *
 from character import *
 from styles import *
+from interfaces import *
 
 pygame.init()
 
@@ -35,7 +36,7 @@ battle_return_to_main_menu_button = pygame.image.load(
 ).convert_alpha()
 
 # global classes
-BFactory_GreyText = ButtonFactory_GreyText()
+BFactory_GreyText = ButtonFactory_GreyMiddleText()
 
 
 # fill screen with black to reset vision
@@ -203,7 +204,7 @@ class Battle_module:
             50,
         )
 
-        test_character = Character(
+        test_character = Basic_Character(
             "Test character",
             15,
             30,
