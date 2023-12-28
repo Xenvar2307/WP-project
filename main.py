@@ -3,6 +3,7 @@ from enum import Enum
 from sizes import *
 from button import *
 from health_bar import *
+from damage_text import *
 from character import *
 from styles import *
 from interfaces import *
@@ -23,6 +24,9 @@ dev_mode = True
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
 font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 120)
+font_damagetext_normal = pygame.font.SysFont(
+    "Caslon Antique", 36
+)  # check if correct size
 
 # load images
 # menu module
@@ -58,6 +62,7 @@ class Exit_app_module:
 
 class MainMenu_module:
     def run(self, dev_mode):
+        clock.tick(fps)
         run = True
         Next_module = Module_names.Exit_app
 
@@ -201,6 +206,8 @@ class Battle_module:
         run = True
         Next_module = Module_names.Exit_app
 
+        Sprite_group = pygame.sprite.Group()
+
         return_to_main_button = BFactory_GreyText.factory(
             screen,
             "Return to Main Menu",
@@ -217,19 +224,28 @@ class Battle_module:
             30,
             team_padding + character_padding,
             ground_level - character_height_normal,
+            DamageTextFactory_normal(
+                team_padding + character_padding + character_width_normal / 2,
+                ground_level - character_height_normal,
+                font_damagetext_normal,
+            ),
         )
 
         test_character.add_health_bar(Health_bar_normal(test_character))
 
         while run:
+            clock.tick(fps)
             # drawing background
             screen.fill(battle_background_color)
 
             test_character.draw(screen)
 
             if return_to_main_button.draw():
-                run = False
-                Next_module = Module_names.Main_menu
+                test_character.sprite_group.add(
+                    test_character.damagetexts_factory.factory(-15)
+                )
+                # run = False
+                # Next_module = Module_names.Main_menu
 
             if dev_mode:
                 # bottom panel

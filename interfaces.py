@@ -46,3 +46,17 @@ class Character(ABC):
     @abstractmethod
     def remove_health_bar(self, health_bar) -> Health_bar:
         pass
+
+
+# Damage Texts
+class DamageText(ABC):
+    @abstractmethod
+    def update(self):
+        pass
+
+
+# for use in normal sized characters
+class DamageTextFactory(ABC):
+    @abstractmethod
+    def factory(self, value):
+        pass

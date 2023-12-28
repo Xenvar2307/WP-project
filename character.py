@@ -2,14 +2,18 @@ import pygame
 from styles import *
 from sizes import *
 from interfaces import *
+from damage_text import *
 
 
 class Basic_Character:
-    def __init__(self, name, HP, MAX_HP, x, y):
+    def __init__(self, name, HP, MAX_HP, x, y, damagetexts_factory: DamageTextFactory):
         self.name = name
         self.current_hp = HP
         self.max_hp = MAX_HP
         self.health_bars = set()
+        self.sprite_group = pygame.sprite.Group()
+
+        self.damagetexts_factory = damagetexts_factory
 
         self.x = x
         self.y = y
@@ -23,6 +27,10 @@ class Basic_Character:
         # temporary
         for HB in self.health_bars:
             HB.draw(surface)
+
+        # not temporary
+        self.sprite_group.update()
+        self.sprite_group.draw(surface)
 
     def add_health_bar(self, new_health_bar: Health_bar):
         self.health_bars.add(new_health_bar)

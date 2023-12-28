@@ -31,3 +31,7 @@ team_padding = 60
 # TO BE CHANGED
 health_bar_normal_height = 25
 health_bar_normal_width = 100
+
+
+# Damage Texts
+DamageTextLife_normal = 60
