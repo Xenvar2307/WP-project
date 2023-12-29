@@ -242,11 +242,8 @@ class Battle_module:
             test_character.draw(screen)
 
             if return_to_main_button.draw():
-                test_character.sprite_group.add(
-                    test_character.damagetexts_factory.factory(-15)
-                )
-                # run = False
-                # Next_module = Module_names.Main_menu
+                run = False
+                Next_module = Module_names.Main_menu
 
             if dev_mode:
                 # bottom panel

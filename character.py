@@ -97,6 +97,11 @@ class Basic_Character:
         # not temporary
         self.sprite_group.draw(surface)
 
+    def play_animation(self, animation_name):
+        self.state = animation_name
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
+
     def add_health_bar(self, new_health_bar: Health_bar):
         self.health_bars.add(new_health_bar)
         new_health_bar.notify(self)
