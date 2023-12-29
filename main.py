@@ -23,7 +23,7 @@ dev_mode = True
 
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
-font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 120)
+font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 200)
 font_damagetext_normal = pygame.font.SysFont(
     "Caslon Antique", 36
 )  # check if correct size
@@ -47,11 +47,6 @@ BFactory_GreyText = ButtonFactory_GreyMiddleText()
 # fill screen with black to reset vision
 def reset_screen():
     screen.fill(black)
-
-
-def draw_text(text, font, text_col, x, y):
-    img = font.render(text, True, text_col)
-    screen.blit(img, (x, y))
 
 
 class Exit_app_module:
@@ -121,11 +116,14 @@ class MainMenu_module:
                     width=1,
                 )
                 draw_text(
+                    screen,
                     "Title of the game",
-                    font_main,
+                    font_caslon_for_scaling,
                     yellow,
                     middle_width - title_width / 2,
                     0,
+                    title_width,
+                    title_height,
                 )
                 # run button
                 pygame.draw.rect(
@@ -140,11 +138,14 @@ class MainMenu_module:
                     width=1,
                 )
                 draw_text(
+                    screen,
                     "Run button",
-                    font_main,
+                    font_caslon_for_scaling,
                     yellow,
                     middle_width - menu_button_width / 2,
                     title_height + menu_button_padding,
+                    int(menu_button_width / 5),
+                    int(menu_button_height / 1),
                 )
                 # 2nd button
                 pygame.draw.rect(
@@ -159,11 +160,14 @@ class MainMenu_module:
                     width=1,
                 )
                 draw_text(
+                    screen,
                     "2nd button",
-                    font_main,
+                    font_caslon_for_scaling,
                     yellow,
                     middle_width - menu_button_width / 2,
                     title_height + 3 * menu_button_padding + 1 * menu_button_height,
+                    int(menu_button_width / 5),
+                    int(menu_button_height / 1),
                 )
                 # 3rd button
                 pygame.draw.rect(
@@ -178,11 +182,14 @@ class MainMenu_module:
                     width=1,
                 )
                 draw_text(
+                    screen,
                     "3rd button",
-                    font_main,
+                    font_caslon_for_scaling,
                     yellow,
                     middle_width - menu_button_width / 2,
                     title_height + 5 * menu_button_padding + 2 * menu_button_height,
+                    int(menu_button_width / 5),
+                    int(menu_button_height / 1),
                 )
 
             # event control
@@ -219,8 +226,8 @@ class Battle_module:
         )
 
         test_character = Basic_Character(
-            "Test character",
-            15,
+            "Druid Warrior",
+            20,
             30,
             team_padding + character_padding,
             ground_level - character_height_normal,
@@ -259,11 +266,14 @@ class Battle_module:
                     width=1,
                 )
                 draw_text(
+                    screen,
                     "Bottom panel",
-                    font_main,
+                    font_caslon_for_scaling,
                     yellow,
                     0,
                     screen_height - bottom_panel_height,
+                    int(menu_button_width / 5),
+                    int(menu_button_height / 1),
                 )
                 # allies
                 pygame.draw.rect(

@@ -29,7 +29,7 @@ team_padding = 60
 # health bar
 # under character
 # TO BE CHANGED
-health_bar_normal_height = 25
+health_bar_normal_height = 12
 health_bar_normal_width = 100
 
 
