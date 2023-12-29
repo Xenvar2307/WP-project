@@ -238,6 +238,7 @@ class Battle_module:
             # drawing background
             screen.fill(battle_background_color)
 
+            test_character.update()
             test_character.draw(screen)
 
             if return_to_main_button.draw():

@@ -36,6 +36,10 @@ class Health_bar(ABC):
 # Characters
 class Character(ABC):
     @abstractmethod
+    def update(self) -> None:
+        pass
+
+    @abstractmethod
     def draw(self, surface) -> None:
         pass
 

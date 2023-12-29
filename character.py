@@ -18,18 +18,52 @@ class Basic_Character:
         self.x = x
         self.y = y
 
+        # animation control
+        self.animation_dict = {}
+        self.frame_index = 0
+        self.state = "Idle"
+        self.update_time = pygame.time.get_ticks()
+
+        # load images
+        temp_list = []
+        for i in range(8):
+            img = pygame.image.load(f"img/Animation/Place_Holder/idle_{i}.png")
+            img = pygame.transform.scale(
+                img, (character_width_normal, character_height_normal)
+            )
+            temp_list.append(img)
+        self.animation_dict["Idle"] = temp_list
+
+        self.image = self.animation_dict.get("Idle")[self.frame_index]
+        self.rect = self.image.get_rect()
+        self.rect.x = self.x
+        self.rect.y = self.y
+
+    def update(self):
+        animation_cooldown = 100
+        self.image = self.animation_dict.get(self.state)[self.frame_index]
+        if pygame.time.get_ticks() - self.update_time > animation_cooldown:
+            self.update_time = pygame.time.get_ticks()
+            self.frame_index += 1
+
+        if self.frame_index >= len(self.animation_dict.get(self.state)):
+            if self.state == "Dead":
+                self.frame_index = len(self.animation_dict.get(self.state)) - 1
+            else:
+                # put this into function probably
+                self.state = "Idle"
+                self.frame_index = 0
+                self.update_time = pygame.time.get_ticks()
+
+        self.sprite_group.update()
+
     def draw(self, surface):
-        pygame.draw.rect(
-            surface,
-            white,
-            (self.x, self.y, character_width_normal, character_height_normal),
-        )
+        surface.blit(self.image, self.rect)
         # temporary
         for HB in self.health_bars:
             HB.draw(surface)
 
         # not temporary
-        self.sprite_group.update()
         self.sprite_group.draw(surface)
 
     def add_health_bar(self, new_health_bar: Health_bar):
