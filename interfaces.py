@@ -62,5 +62,5 @@ class DamageText(ABC):
 # for use in characters
 class DamageTextFactory(ABC):
     @abstractmethod
-    def factory(self, value):
+    def factory(self, value, color):
         pass

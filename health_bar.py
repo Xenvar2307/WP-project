@@ -26,3 +26,13 @@ class Health_bar_normal:
             red,
             (self.x, self.y, health_bar_normal_width, health_bar_normal_height),
         )
+        pygame.draw.rect(
+            surface,
+            green,
+            (
+                self.x,
+                self.y,
+                int(health_bar_normal_width * self.current_hp / self.max_hp),
+                health_bar_normal_height,
+            ),
+        )
