@@ -21,10 +21,11 @@ class Basic_Character:
         # animation control
         self.animation_dict = {}
         self.frame_index = 0
+
         self.state = "Idle"
         self.update_time = pygame.time.get_ticks()
 
-        # load images
+        # load images idle
         temp_list = []
         for i in range(8):
             img = pygame.image.load(f"img/Animation/Place_Holder/idle_{i}.png")
@@ -33,6 +34,36 @@ class Basic_Character:
             )
             temp_list.append(img)
         self.animation_dict["Idle"] = temp_list
+
+        # load images hurt
+        temp_list = []
+        for i in range(8):
+            img = pygame.image.load(f"img/Animation/Place_Holder/Hurt_{i}.png")
+            img = pygame.transform.scale(
+                img, (character_width_normal, character_height_normal)
+            )
+            temp_list.append(img)
+        self.animation_dict["Hurt"] = temp_list
+
+        # load images Attack
+        temp_list = []
+        for i in range(8):
+            img = pygame.image.load(f"img/Animation/Place_Holder/Attack_{i}.png")
+            img = pygame.transform.scale(
+                img, (character_width_normal, character_height_normal)
+            )
+            temp_list.append(img)
+        self.animation_dict["Attack"] = temp_list
+
+        # load images dead
+        temp_list = []
+        for i in range(9):
+            img = pygame.image.load(f"img/Animation/Place_Holder/Dead_{i}.png")
+            img = pygame.transform.scale(
+                img, (character_width_normal, character_height_normal)
+            )
+            temp_list.append(img)
+        self.animation_dict["Dead"] = temp_list
 
         self.image = self.animation_dict.get("Idle")[self.frame_index]
         self.rect = self.image.get_rect()
