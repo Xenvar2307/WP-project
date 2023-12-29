@@ -1,7 +1,7 @@
 from typing import Any
 import pygame
 from styles import *
-from sizes import *
+from number_values import *
 from interfaces import *
 
 

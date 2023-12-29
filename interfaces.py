@@ -55,7 +55,7 @@ class DamageText(ABC):
         pass
 
 
-# for use in normal sized characters
+# for use in characters
 class DamageTextFactory(ABC):
     @abstractmethod
     def factory(self, value):

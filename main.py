@@ -1,6 +1,6 @@
 import pygame
 from enum import Enum
-from sizes import *
+from number_values import *
 from button import *
 from health_bar import *
 from damage_text import *

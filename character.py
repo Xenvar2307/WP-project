@@ -1,6 +1,6 @@
 import pygame
 from styles import *
-from sizes import *
+from number_values import *
 from interfaces import *
 from damage_text import *
 
