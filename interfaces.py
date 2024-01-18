@@ -92,3 +92,18 @@ class Ability(ABC):
     @abstractmethod
     def action(self, caster: Character, target: Character) -> None:
         pass
+
+
+class AbilityFactory(ABC):
+    @abstractmethod
+    def factory(self, name: str) -> Ability:
+        pass
+
+
+class ActionPanel(ABC):
+    @abstractmethod
+    def draw(self):
+        pass
+
+    def notify(self, character: Character):
+        pass

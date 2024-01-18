@@ -8,6 +8,7 @@ from character import *
 from styles import *
 from interfaces import *
 from ability import *
+from action_panel import *
 
 pygame.init()
 
@@ -20,7 +21,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("WP-project")
 # pygame.display.set_icon()
-dev_mode = True
+dev_mode = False
 
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
@@ -263,11 +264,15 @@ class Battle_module:
 
         test_character.add_health_bar(Health_bar_normal(test_character, HealthBar_font))
 
+        action_panel = Main_Action_Panel(screen)
+        action_panel.notify(test_character)
+
         while run:
             clock.tick(fps)
             # drawing background
             screen.fill(battle_background_color)
             draw_bottom_panel()
+            action_panel.draw()
             draw_battle_background()
 
             test_character.update()
