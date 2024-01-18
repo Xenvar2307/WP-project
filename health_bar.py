@@ -21,7 +21,7 @@ class Health_bar_normal:
         self.x = character.x + character_width_normal / 2 - health_bar_normal_width / 2
         self.y = character.y + character_height_normal + 30
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         draw_raw_text(
             surface, self.character_name, self.font, white, self.x, self.y - 30
         )
@@ -57,7 +57,7 @@ class Health_bar_action_panel:
         self.max_hp = character.max_hp
         self.character_name = character.name
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         draw_raw_text(
             surface,
             self.character_name + f"  {self.current_hp}/{self.max_hp} HP",

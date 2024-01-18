@@ -118,7 +118,7 @@ class Basic_Character:
         # update connected sprites
         self.sprite_group.update()
 
-    def draw(self, surface):
+    def draw(self, surface: pygame.Surface):
         surface.blit(self.image, self.rect)
         # temporary
         for HB in self.health_bars:
@@ -127,7 +127,7 @@ class Basic_Character:
         # draw connected sprites
         self.sprite_group.draw(surface)
 
-    def play_animation(self, animation_name):
+    def play_animation(self, animation_name: str):
         if animation_name in self.animation_dict.keys():
             self.state = animation_name
             self.frame_index = 0
@@ -139,11 +139,16 @@ class Basic_Character:
         self.health_bars.add(new_health_bar)
         new_health_bar.notify(self)
 
-    def remove_health_bar(self, health_bar: Health_bar):
-        self.health_bars.discard(health_bar)
-        return health_bar
+    def remove_health_bar(self, health_bar: Health_bar) -> bool:
+        if health_bar in self.health_bars:
+            result = True
+        else:
+            result = False
 
-    def heal(self, value):
+        self.health_bars.discard(health_bar)
+        return result
+
+    def heal(self, value: int):
         if value <= self.max_hp - self.current_hp:
             healed_value = value
         else:
@@ -157,7 +162,7 @@ class Basic_Character:
 
         self.sprite_group.add(self.damagetexts_factory.factory(healed_value, green))
 
-    def take_damage(self, value):
+    def take_damage(self, value: int):
         if value >= self.current_hp:
             damage_value = self.current_hp
             self.play_animation("Dead")
@@ -217,4 +222,5 @@ class Basic_Enemy(Basic_Character):
                 list[i] = pygame.transform.flip(frame, True, False)
 
     def AI_act(self):
+        # for future ideas
         pass

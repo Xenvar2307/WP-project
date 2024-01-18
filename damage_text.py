@@ -27,7 +27,7 @@ class DamageTextFactory_normal:
         self.y = y
         self.font = font
 
-    def factory(self, value, color) -> pygame.sprite.Sprite:
+    def factory(self, value: int, color) -> pygame.sprite.Sprite:
         if value >= 0:
             value_shown = value
         elif value < 0:

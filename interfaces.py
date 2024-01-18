@@ -62,7 +62,7 @@ class Character(ABC):
         pass
 
     @abstractmethod
-    def remove_health_bar(self, health_bar) -> Health_bar:
+    def remove_health_bar(self, health_bar) -> bool:
         pass
 
     @abstractmethod
@@ -71,6 +71,10 @@ class Character(ABC):
 
     @abstractmethod
     def take_damage(self, value: int) -> None:
+        pass
+
+    @abstractmethod
+    def reset(self) -> None:
         pass
 
 

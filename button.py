@@ -12,7 +12,7 @@ class BasicButton:
         self.clicked = False
         self.surface = surface
 
-    def draw(self):
+    def draw(self) -> bool:
         # return value, tells us if we should act
         action = False
 
