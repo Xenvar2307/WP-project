@@ -9,6 +9,7 @@ from styles import *
 from interfaces import *
 from ability import *
 from action_panel import *
+import random
 
 pygame.init()
 
@@ -21,7 +22,7 @@ clock = pygame.time.Clock()
 screen = pygame.display.set_mode((screen_width, screen_height))
 pygame.display.set_caption("WP-project")
 # pygame.display.set_icon()
-dev_mode = False
+dev_mode = True
 
 # fonts
 font_main = pygame.font.SysFont("Caslon Antique", 30)
@@ -231,8 +232,6 @@ class Battle_module:
         run = True
         Next_module = Module_names.Exit_app
 
-        Sprite_group = pygame.sprite.Group()
-
         return_to_main_button = BFactory_GreyText.factory(
             screen,
             "Return to Main Menu",
@@ -243,29 +242,140 @@ class Battle_module:
             50,
         )
 
-        test_character = Basic_Character(
-            "Warrior",
-            20,
-            30,
+        allies = []
+        enemies = []
+
+        ally_mage = Basic_Character(
+            "Mage",
+            25,
+            25,
             3,
+            5,
             3,
-            3,
-            HealNTFactory.factory("Bandage"),
-            AttackSTFactory.factory("Sword"),
+            HealNTFactory.factory("Magic"),
+            AttackSTFactory.factory("MagicMissile"),
             None,
-            team_padding + character_padding,
+            team_padding + 3 * character_padding + 1 * character_width_normal,
             ground_level - character_height_normal,
             DamageTextFactory_normal(
-                team_padding + character_padding + character_width_normal / 2,
+                team_padding
+                + 3 * character_padding
+                + 1 * character_width_normal
+                + character_width_normal / 2,
                 ground_level - character_height_normal,
                 font_damagetext_normal,
             ),
         )
 
-        test_character.add_health_bar(Health_bar_normal(test_character, HealthBar_font))
+        ally_swordman = Basic_Character(
+            "Swordman",
+            30,
+            30,
+            3,
+            3,
+            5,
+            HealNTFactory.factory("Bandage"),
+            AttackSTFactory.factory("Sword"),
+            None,
+            team_padding + 5 * character_padding + 2 * character_width_normal,
+            ground_level - character_height_normal,
+            DamageTextFactory_normal(
+                team_padding
+                + 5 * character_padding
+                + 2 * character_width_normal
+                + character_width_normal / 2,
+                ground_level - character_height_normal,
+                font_damagetext_normal,
+            ),
+        )
+
+        ally_barbarian = Basic_Character(
+            "Barbarian",
+            35,
+            35,
+            5,
+            3,
+            3,
+            None,
+            AttackSTFactory.factory("Battleaxe"),
+            None,
+            team_padding + 7 * character_padding + 3 * character_width_normal,
+            ground_level - character_height_normal,
+            DamageTextFactory_normal(
+                team_padding
+                + 7 * character_padding
+                + 3 * character_width_normal
+                + character_width_normal / 2,
+                ground_level - character_height_normal,
+                font_damagetext_normal,
+            ),
+        )
+
+        ally_mage.add_health_bar(Health_bar_normal(ally_mage, HealthBar_font))
+        ally_swordman.add_health_bar(Health_bar_normal(ally_swordman, HealthBar_font))
+        ally_barbarian.add_health_bar(Health_bar_normal(ally_barbarian, HealthBar_font))
+        allies.append(ally_mage)
+        allies.append(ally_swordman)
+        allies.append(ally_barbarian)
+
+        enemy_first = Basic_Enemy(
+            "Warrior",
+            15,
+            15,
+            3,
+            3,
+            3,
+            None,
+            AttackSTFactory.factory("Sword"),
+            None,
+            screen_width
+            - team_padding
+            - 4 * character_width_normal
+            - 7 * character_padding,
+            ground_level - character_height_normal,
+            DamageTextFactory_normal(
+                screen_width
+                - team_padding
+                - 4 * character_width_normal
+                - 7 * character_padding
+                + character_width_normal / 2,
+                ground_level - character_height_normal,
+                font_damagetext_normal,
+            ),
+        )
+
+        enemy_second = Basic_Enemy(
+            "Warrior",
+            15,
+            15,
+            3,
+            3,
+            3,
+            HealNTFactory.factory("Bandage"),
+            AttackSTFactory.factory("Battleaxe"),
+            None,
+            screen_width
+            - team_padding
+            - 3 * character_width_normal
+            - 5 * character_padding,
+            ground_level - character_height_normal,
+            DamageTextFactory_normal(
+                screen_width
+                - team_padding
+                - 3 * character_width_normal
+                - 5 * character_padding
+                + character_width_normal / 2,
+                ground_level - character_height_normal,
+                font_damagetext_normal,
+            ),
+        )
+
+        enemy_first.add_health_bar(Health_bar_normal(enemy_first, HealthBar_font))
+        enemy_second.add_health_bar(Health_bar_normal(enemy_second, HealthBar_font))
+        enemies.append(enemy_first)
+        enemies.append(enemy_second)
 
         action_panel = Main_Action_Panel(screen)
-        action_panel.notify(test_character)
 
         while run:
             clock.tick(fps)
@@ -275,8 +385,13 @@ class Battle_module:
             action_panel.draw()
             draw_battle_background()
 
-            test_character.update()
-            test_character.draw(screen)
+            for character in allies:
+                character.update()
+                character.draw(screen)
+
+            for character in enemies:
+                character.update()
+                character.draw(screen)
 
             if return_to_main_button.draw():
                 run = False

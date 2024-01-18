@@ -109,7 +109,7 @@ class HealNTAbility_Factory:
         match tool:
             case "Bandage":
                 return HealAction_Bandage(self.HealAction_Bandage_icon)
-            case "magic":
+            case "Magic":
                 return HealAction_Magic(self.HealAction_Magic_icon)
             case _:
                 print("Not recognised healing tool type!")

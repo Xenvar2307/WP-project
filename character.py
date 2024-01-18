@@ -1,4 +1,6 @@
 import pygame
+from damage_text import DamageTextFactory
+from interfaces import DamageTextFactory
 from styles import *
 from number_values import *
 from interfaces import *
@@ -170,3 +172,41 @@ class Basic_Character:
 
         # not a mistake, show damage dealt not how much got to 0
         self.damagetexts_factory.factory(value, red)
+
+
+class Basic_Enemy(Basic_Character):
+    def __init__(
+        self,
+        name,
+        HP,
+        MAX_HP,
+        strength,
+        power,
+        dexterity,
+        healing_ability,
+        main_attack_ability,
+        special_ability,
+        x,
+        y,
+        damagetexts_factory: DamageTextFactory,
+    ):
+        super().__init__(
+            name,
+            HP,
+            MAX_HP,
+            strength,
+            power,
+            dexterity,
+            healing_ability,
+            main_attack_ability,
+            special_ability,
+            x,
+            y,
+            damagetexts_factory,
+        )
+        for list in self.animation_dict.values():
+            for i, frame in enumerate(list):
+                list[i] = pygame.transform.flip(frame, True, False)
+
+    def AI_act(self):
+        pass
