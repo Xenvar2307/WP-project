@@ -14,6 +14,9 @@ class Basic_Character:
         strength,
         power,
         dexterity,
+        healing_ability,
+        main_attack_ability,
+        special_ability,
         x,
         y,
         damagetexts_factory: DamageTextFactory,
@@ -28,6 +31,10 @@ class Basic_Character:
         self.strength = strength
         self.power = power
         self.dexterity = dexterity
+        # abilities
+        self.healing_ability = healing_ability
+        self.main_attack_ability = main_attack_ability
+        self.special_ability = special_ability
 
         # technical and design part
 

@@ -7,6 +7,7 @@ from damage_text import *
 from character import *
 from styles import *
 from interfaces import *
+from ability import *
 
 pygame.init()
 
@@ -27,6 +28,7 @@ font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 200)
 font_damagetext_normal = pygame.font.SysFont(
     "Caslon Antique", 36
 )  # check if correct size
+HealthBar_font = pygame.font.SysFont("Caslon Antique", 25)
 
 # load images
 # menu module
@@ -45,8 +47,10 @@ battle_background = pygame.image.load(
     "img/Background/battle_background.png"
 ).convert_alpha()
 
-# global classes
+# global classes FACTORIES
 BFactory_GreyText = ButtonFactory_GreyMiddleText()
+AttackSTFactory = AttackSTAbility_Factory()
+HealNTFactory = HealNTAbility_Factory()
 
 
 # fill screen with black to reset vision
@@ -239,12 +243,15 @@ class Battle_module:
         )
 
         test_character = Basic_Character(
-            "Druid Warrior",
+            "Warrior",
             20,
             30,
             3,
             3,
             3,
+            HealNTFactory.factory("Bandage"),
+            AttackSTFactory.factory("Sword"),
+            None,
             team_padding + character_padding,
             ground_level - character_height_normal,
             DamageTextFactory_normal(
@@ -254,7 +261,7 @@ class Battle_module:
             ),
         )
 
-        test_character.add_health_bar(Health_bar_normal(test_character))
+        test_character.add_health_bar(Health_bar_normal(test_character, HealthBar_font))
 
         while run:
             clock.tick(fps)

@@ -5,22 +5,26 @@ from interfaces import *
 
 
 class Health_bar_normal:
-    def __init__(self, character: Character):
+    def __init__(self, character: Character, font):
         self.id = "normal_health_bar"
         self.current_hp = character.current_hp
         self.max_hp = character.max_hp
         self.character_name = character.name
         self.x = character.x
         self.y = character.y + character_height_normal
+        self.font = font
 
     def notify(self, character: Character):
         self.current_hp = character.current_hp
         self.max_hp = character.max_hp
         self.character_name = character.name
         self.x = character.x + character_width_normal / 2 - health_bar_normal_width / 2
-        self.y = character.y + character_height_normal + 15
+        self.y = character.y + character_height_normal + 30
 
     def draw(self, surface):
+        draw_raw_text(
+            surface, self.character_name, self.font, white, self.x, self.y - 30
+        )
         pygame.draw.rect(
             surface,
             red,
