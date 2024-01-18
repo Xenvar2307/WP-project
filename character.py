@@ -155,7 +155,7 @@ class Basic_Character:
         for HB in self.health_bars:
             HB.notify(self)
 
-        self.damagetexts_factory.factory(healed_value, green)
+        self.sprite_group.add(self.damagetexts_factory.factory(healed_value, green))
 
     def take_damage(self, value):
         if value >= self.current_hp:
@@ -171,7 +171,15 @@ class Basic_Character:
             HB.notify(self)
 
         # not a mistake, show damage dealt not how much got to 0
-        self.damagetexts_factory.factory(value, red)
+        self.sprite_group.add(self.damagetexts_factory.factory(value, red))
+
+    def reset(self):
+        self.state = "Idle"
+        self.current_hp = self.max_hp
+        self.frame_index = 0
+        self.update_time = pygame.time.get_ticks()
+        for HB in self.health_bars:
+            HB.notify(self)
 
 
 class Basic_Enemy(Basic_Character):

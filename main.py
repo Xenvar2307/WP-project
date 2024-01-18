@@ -10,6 +10,7 @@ from interfaces import *
 from ability import *
 from action_panel import *
 import random
+from itertools import cycle
 
 pygame.init()
 
@@ -242,6 +243,16 @@ class Battle_module:
             50,
         )
 
+        restart_button = BFactory_GreyText.factory(
+            screen,
+            "Restart Battle",
+            font_caslon_for_scaling,
+            screen_width / 2 - 125,
+            0,
+            250,
+            50,
+        )
+
         allies = []
         enemies = []
 
@@ -320,8 +331,8 @@ class Battle_module:
 
         enemy_first = Basic_Enemy(
             "Warrior",
-            15,
-            15,
+            20,
+            20,
             3,
             3,
             3,
@@ -346,8 +357,8 @@ class Battle_module:
 
         enemy_second = Basic_Enemy(
             "Warrior",
-            15,
-            15,
+            20,
+            20,
             3,
             3,
             3,
@@ -377,14 +388,38 @@ class Battle_module:
 
         action_panel = Main_Action_Panel(screen)
 
+        # setup initiative cycle
+        initiative_cycle = allies + enemies
+        current_character_iter = cycle(initiative_cycle)
+        current_character = next(current_character_iter)
+        chosen_target = None
+        clicked_action = None
+        chosen_action = None
+
+        action_cooldown = 90
+        action_wait_time = 90
+        game_over = 0
+
         while run:
             clock.tick(fps)
-            # drawing background
-            screen.fill(battle_background_color)
-            draw_bottom_panel()
-            action_panel.draw()
-            draw_battle_background()
+            action_cooldown += 1
 
+            # drawing background
+
+            screen.fill(battle_background_color)
+            draw_battle_background()
+            draw_bottom_panel()
+
+            draw_raw_text(
+                screen,
+                f"Current Character: {current_character.name} Chosen action: {str(type(chosen_action))}",
+                font_main,
+                white,
+                0,
+                0,
+            )
+
+            # drawing characters
             for character in allies:
                 character.update()
                 character.draw(screen)
@@ -393,10 +428,12 @@ class Battle_module:
                 character.update()
                 character.draw(screen)
 
+            # drawing menu buttons
             if return_to_main_button.draw():
                 run = False
                 Next_module = Module_names.Main_menu
 
+            # drawing guiding lines
             if dev_mode:
                 # bottom panel
                 pygame.draw.rect(
@@ -523,6 +560,119 @@ class Battle_module:
                     ),
                     width=1,
                 )
+            if game_over == 0:
+                # draw action panel for ally or get enemy
+                if current_character in allies:
+                    if action_cooldown >= action_wait_time:
+                        action_panel.notify(current_character)
+                        clicked_action = action_panel.draw()
+                        if clicked_action != None and clicked_action != chosen_action:
+                            chosen_action = clicked_action
+                else:
+                    # get action from AI and resolve it at the same time
+                    if action_cooldown >= action_wait_time:
+                        AI_attack_targets = list(
+                            filter(lambda ch: ch.state != "Dead", allies)
+                        )
+                        current_character.main_attack_ability.action(
+                            current_character, random.choice(AI_attack_targets)
+                        )
+                        current_character = next(current_character_iter)
+                        action_cooldown = 0
+
+                # resolve player action
+                if chosen_action != None and action_cooldown >= action_wait_time:
+                    # resolve action
+                    match chosen_action.targets:
+                        case 0:  # resolve now
+                            chosen_action.action(current_character, chosen_target)
+                            action_cooldown = 0
+                            chosen_action = None
+                            # get next character
+                            current_character = next(current_character_iter)
+                            while current_character.state == "Dead":
+                                current_character = next(current_character_iter)
+                        case 1:
+                            pygame.mouse.set_visible(True)
+                            pos = pygame.mouse.get_pos()
+                            for count, enemy in enumerate(
+                                list(filter(lambda en: en.state != "Dead", enemies))
+                            ):
+                                if enemy.rect.collidepoint(pos):
+                                    # hide mouse
+                                    pygame.mouse.set_visible(False)
+                                    # show ability icon
+                                    screen.blit(
+                                        pygame.transform.scale(
+                                            chosen_action.icon, (32, 32)
+                                        ),
+                                        pos,
+                                    )
+                                    if clicked == True and enemy.state is not "Dead":
+                                        chosen_target = enemy
+
+                            # perform action
+                            if chosen_target != None:
+                                chosen_action.action(current_character, chosen_target)
+                                action_cooldown = 0
+                                chosen_action = None
+                                chosen_target = None
+                                pygame.mouse.set_visible(True)
+                                # get next character
+                                current_character = next(current_character_iter)
+                                while current_character.state == "Dead":
+                                    current_character = next(current_character_iter)
+
+                        case _:
+                            pass
+                else:
+                    # wait for choice
+                    pass
+
+            # check for dead teams
+            alive_allies = 0
+            for ally in allies:
+                if ally.state != "Dead":
+                    alive_allies += 1
+
+            if alive_allies == 0:
+                game_over = -1
+
+            alive_enemies = 0
+            for enemy in enemies:
+                if enemy.state != "Dead":
+                    alive_enemies += 1
+
+            if alive_enemies == 0:
+                game_over = 1
+
+            # check for end of battle
+            if game_over != 0:
+                if game_over == 1:
+                    draw_raw_text(
+                        screen,
+                        "Victory!",
+                        font_caslon_for_scaling,
+                        white,
+                        screen_width / 2 - 250,
+                        50,
+                    )
+                if game_over == -1:
+                    draw_raw_text(
+                        screen,
+                        "Defeat!",
+                        font_caslon_for_scaling,
+                        white,
+                        screen_width / 2 - 250,
+                        50,
+                    )
+                if restart_button.draw():
+                    for character in initiative_cycle:
+                        character.reset()
+                        current_character_iter = cycle(initiative_cycle)
+                        current_character = next(current_character_iter)
+                        action_cooldown = 80
+                        game_over = 0
 
             # event control
             for event in pygame.event.get():

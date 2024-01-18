@@ -51,9 +51,9 @@ class HealAction_no_target(ABC):
 
     def action(self, caster, target):
         if self.targets == 0:
-            caster.heal(self.calc_heal())
+            caster.heal(self.calc_heal(caster, target))
         else:
-            target.heal(self.calc_heal())
+            target.heal(self.calc_heal(caster, target))
 
 
 class HealAction_Bandage(HealAction_no_target):
