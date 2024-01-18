@@ -29,9 +29,12 @@ team_padding = 60
 # health bar
 # under character
 # TO BE CHANGED
-health_bar_normal_height = 12
+health_bar_normal_height = 15
 health_bar_normal_width = 100
 
 
 # Damage Texts
 DamageTextLife_normal = 60
+
+# icon size
+icon_size = 64

@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import pygame
 
 
 # Modules
@@ -18,7 +19,16 @@ class Button(ABC):
 
 class Buttonfactory_middle_text(ABC):
     @abstractmethod
-    def factory(self, surface, text, font, x, y, width, height) -> Button:
+    def factory(
+        self,
+        surface: pygame.Surface,
+        text: str,
+        font: pygame.font,
+        x: int,
+        y: int,
+        width: int,
+        height: int,
+    ) -> Button:
         pass
 
 
@@ -29,7 +39,7 @@ class Health_bar(ABC):
         pass
 
     @abstractmethod
-    def draw(self, surface) -> None:
+    def draw(self, surface: pygame.Surface) -> None:
         pass
 
 
@@ -40,7 +50,11 @@ class Character(ABC):
         pass
 
     @abstractmethod
-    def draw(self, surface) -> None:
+    def draw(self, surface: pygame.Surface) -> None:
+        pass
+
+    @abstractmethod
+    def play_animation(self, animation_name: str) -> None:
         pass
 
     @abstractmethod
@@ -49,6 +63,14 @@ class Character(ABC):
 
     @abstractmethod
     def remove_health_bar(self, health_bar) -> Health_bar:
+        pass
+
+    @abstractmethod
+    def heal(self, value: int) -> None:
+        pass
+
+    @abstractmethod
+    def take_damage(self, value: int) -> None:
         pass
 
 
@@ -62,5 +84,11 @@ class DamageText(ABC):
 # for use in characters
 class DamageTextFactory(ABC):
     @abstractmethod
-    def factory(self, value, color):
+    def factory(self, value: int, color) -> pygame.sprite.Sprite:
+        pass
+
+
+class Ability(ABC):
+    @abstractmethod
+    def action(self, caster: Character, target: Character) -> None:
         pass

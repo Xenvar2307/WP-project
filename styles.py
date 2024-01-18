@@ -31,3 +31,8 @@ def draw_text(surface, text, font, text_col, x, y, width, height):
         )
 
     surface.blit(text_image, (x, y))
+
+
+def draw_raw_text(surface, text, font, text_col, x, y):
+    text_image = font.render(text, True, text_col)
+    surface.blit(text_image, (x, y))

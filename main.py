@@ -40,6 +40,11 @@ battle_return_to_main_menu_button = pygame.image.load(
     "img/buttons/return_to_main_menu.png"
 ).convert_alpha()
 
+bottom_panel = pygame.image.load("img/Background/bottom_panel.png").convert_alpha()
+battle_background = pygame.image.load(
+    "img/Background/battle_background.png"
+).convert_alpha()
+
 # global classes
 BFactory_GreyText = ButtonFactory_GreyMiddleText()
 
@@ -47,6 +52,14 @@ BFactory_GreyText = ButtonFactory_GreyMiddleText()
 # fill screen with black to reset vision
 def reset_screen():
     screen.fill(black)
+
+
+def draw_bottom_panel():
+    screen.blit(bottom_panel, (0, screen_height - bottom_panel_height))
+
+
+def draw_battle_background():
+    screen.blit(battle_background, (0, 0))
 
 
 class Exit_app_module:
@@ -229,6 +242,9 @@ class Battle_module:
             "Druid Warrior",
             20,
             30,
+            3,
+            3,
+            3,
             team_padding + character_padding,
             ground_level - character_height_normal,
             DamageTextFactory_normal(
@@ -244,6 +260,8 @@ class Battle_module:
             clock.tick(fps)
             # drawing background
             screen.fill(battle_background_color)
+            draw_bottom_panel()
+            draw_battle_background()
 
             test_character.update()
             test_character.draw(screen)

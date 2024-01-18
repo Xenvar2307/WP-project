@@ -6,13 +6,30 @@ from damage_text import *
 
 
 class Basic_Character:
-    def __init__(self, name, HP, MAX_HP, x, y, damagetexts_factory: DamageTextFactory):
+    def __init__(
+        self,
+        name,
+        HP,
+        MAX_HP,
+        strength,
+        power,
+        dexterity,
+        x,
+        y,
+        damagetexts_factory: DamageTextFactory,
+    ):
         # basic stats
         self.name = name
         # health control
         self.current_hp = HP
         self.max_hp = MAX_HP
         self.health_bars = set()
+        # stats
+        self.strength = strength
+        self.power = power
+        self.dexterity = dexterity
+
+        # technical and design part
 
         # control of damage texts
         self.sprite_group = pygame.sprite.Group()
