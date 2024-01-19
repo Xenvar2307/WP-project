@@ -608,7 +608,7 @@ class Battle_module:
                                         ),
                                         pos,
                                     )
-                                    if clicked == True and enemy.state is not "Dead":
+                                    if clicked == True and enemy.state != "Dead":
                                         chosen_target = enemy
 
                             # perform action
