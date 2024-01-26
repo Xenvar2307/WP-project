@@ -1,25 +1,138 @@
 import unittest
+from unittest.mock import patch
 import pygame
 from main import *
 
 
-class TestActionPanel(unittest.TestCase):
-    # test if notify gets correct classes
-    # if image is always loaded and correct
-    def test_something(self):
-        self.assertEqual(1, 1)
-
-
 class TestCharacter(unittest.TestCase):
-    # test play animation:
-    # number of frames played, return to idle or staying dead
-
-    # automatic updating healthbar, assigning and removing healthbars
-    # do it together with take damage and heal methods
     # check if reset is the same as new character with base state
+    def setUp(self):
+        self.test_character1 = Basic_Character(
+            "test name 1", 15, 15, 3, 3, 3, None, None, None, 0, 0, None
+        )
+        self.test_character2 = Basic_Character(
+            "test name 2", 15, 15, 3, 3, 3, None, None, None, 0, 0, None
+        )
 
-    def test_nothing(self):
-        self.assertAlmostEqual(1, 1)
+    def tearDown(self):
+        pass
+
+    def test_reset(self):
+        with patch(
+            "character.Basic_Character.get_time_passed_from_last_update"
+        ) as mocked_get:
+            mocked_get.return_value = 101
+            self.test_character2.take_damage(3)
+            self.test_character2.heal(4)
+            self.test_character2.take_damage(100)
+            for i in range(100):
+                self.test_character2.update()
+
+            self.test_character2.reset()
+
+            self.assertNotEqual(self.test_character1.name, self.test_character2.name)
+            self.assertEqual(
+                self.test_character1.current_hp, self.test_character2.current_hp
+            )
+            self.assertEqual(self.test_character1.max_hp, self.test_character2.max_hp)
+            self.assertEqual(
+                self.test_character1.strength, self.test_character2.strength
+            )
+            self.assertEqual(self.test_character1.power, self.test_character2.power)
+            self.assertEqual(
+                self.test_character1.dexterity, self.test_character2.dexterity
+            )
+            self.assertEqual(
+                self.test_character1.frame_index, self.test_character2.frame_index
+            )
+            self.assertEqual(self.test_character1.state, self.test_character2.state)
+
+    def test_play_animation_idle(self):
+        with patch(
+            "character.Basic_Character.get_time_passed_from_last_update"
+        ) as mocked_get:
+            mocked_get.return_value = 101
+
+            self.assertEqual(self.test_character1.state, "Idle")
+            self.assertEqual(self.test_character1.frame_index, 0)
+            for i in range(
+                0, 2 * len(self.test_character1.animation_dict.get("Idle")) - 1
+            ):
+                self.assertEqual(self.test_character1.state, "Idle")
+                self.assertEqual(
+                    self.test_character1.frame_index,
+                    i % len(self.test_character1.animation_dict.get("Idle")),
+                )
+                self.test_character1.update()
+
+    def test_play_animation_attack(self):
+        with patch(
+            "character.Basic_Character.get_time_passed_from_last_update"
+        ) as mocked_get:
+            mocked_get.return_value = 101
+
+            self.test_character1.play_animation("Attack")
+            self.assertEqual(self.test_character1.state, "Attack")
+            self.assertEqual(self.test_character1.frame_index, 0)
+
+            for i in range(1, len(self.test_character1.animation_dict.get("Attack"))):
+                self.test_character1.update()
+                self.assertEqual(self.test_character1.state, "Attack")
+                self.assertEqual(
+                    self.test_character1.frame_index,
+                    i,
+                )
+
+            self.test_character1.update()
+            self.assertEqual(self.test_character1.frame_index, 0)
+            self.assertEqual(self.test_character1.state, "Idle")
+
+    def test_play_animation_hurt(self):
+        with patch(
+            "character.Basic_Character.get_time_passed_from_last_update"
+        ) as mocked_get:
+            mocked_get.return_value = 101
+
+            self.test_character1.play_animation("Hurt")
+            self.assertEqual(self.test_character1.state, "Hurt")
+            self.assertEqual(self.test_character1.frame_index, 0)
+
+            for i in range(1, len(self.test_character1.animation_dict.get("Hurt"))):
+                self.test_character1.update()
+                self.assertEqual(self.test_character1.state, "Hurt")
+                self.assertEqual(
+                    self.test_character1.frame_index,
+                    i,
+                )
+
+            self.test_character1.update()
+            self.assertEqual(self.test_character1.frame_index, 0)
+            self.assertEqual(self.test_character1.state, "Idle")
+
+    def test_play_animation_dead(self):
+        with patch(
+            "character.Basic_Character.get_time_passed_from_last_update"
+        ) as mocked_get:
+            mocked_get.return_value = 101
+
+            self.test_character1.play_animation("Dead")
+            self.assertEqual(self.test_character1.state, "Dead")
+            self.assertEqual(self.test_character1.frame_index, 0)
+
+            for i in range(1, len(self.test_character1.animation_dict.get("Dead"))):
+                self.test_character1.update()
+                self.assertEqual(self.test_character1.state, "Dead")
+                self.assertEqual(
+                    self.test_character1.frame_index,
+                    i,
+                )
+
+            self.test_character1.update()
+            self.assertEqual(
+                self.test_character1.frame_index,
+                len(self.test_character1.animation_dict.get("Dead")) - 1,
+            )
+            self.assertEqual(self.test_character1.state, "Dead")
 
 
 class TestDamageTexts_with_factory(unittest.TestCase):

@@ -101,11 +101,14 @@ class Basic_Character:
         self.rect.x = self.x
         self.rect.y = self.y
 
+    def get_time_passed_from_last_update(self):
+        return pygame.time.get_ticks() - self.update_time
+
     def update(self):
         # image control
         animation_cooldown = 100
         self.image = self.animation_dict.get(self.state)[self.frame_index]
-        if pygame.time.get_ticks() - self.update_time > animation_cooldown:
+        if self.get_time_passed_from_last_update() > animation_cooldown:
             self.update_time = pygame.time.get_ticks()
             self.frame_index += 1
 
