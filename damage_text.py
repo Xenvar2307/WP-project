@@ -17,7 +17,7 @@ class BasicDamageText(pygame.sprite.Sprite):
     def update(self):
         self.rect.y -= 1
         self.counter += 1
-        if self.counter > self.life:
+        if self.counter >= self.life:
             self.kill()
 
 

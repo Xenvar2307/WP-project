@@ -13,6 +13,7 @@ class Health_bar_normal:
         self.x = character.x
         self.y = character.y + character_height_normal
         self.font = font
+        character.add_health_bar(self)
 
     def notify(self, character: Character):
         self.current_hp = character.current_hp

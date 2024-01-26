@@ -160,7 +160,8 @@ class Basic_Character:
         for HB in self.health_bars:
             HB.notify(self)
 
-        self.sprite_group.add(self.damagetexts_factory.factory(healed_value, green))
+        if self.damagetexts_factory != None:
+            self.sprite_group.add(self.damagetexts_factory.factory(healed_value, green))
 
     def take_damage(self, value: int):
         if value >= self.current_hp:
@@ -176,7 +177,8 @@ class Basic_Character:
             HB.notify(self)
 
         # not a mistake, show damage dealt not how much got to 0
-        self.sprite_group.add(self.damagetexts_factory.factory(value, red))
+        if self.damagetexts_factory != None:
+            self.sprite_group.add(self.damagetexts_factory.factory(value, red))
 
     def reset(self):
         self.state = "Idle"

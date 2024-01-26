@@ -12,48 +12,48 @@ from action_panel import *
 import random
 from itertools import cycle
 
-pygame.init()
+if __name__ == "__main__":
+    pygame.init()
 
-# frames control
-fps = 60
-clock = pygame.time.Clock()
+    # frames control
+    fps = 60
+    clock = pygame.time.Clock()
 
+    # get screen setup
+    screen = pygame.display.set_mode((screen_width, screen_height))
+    pygame.display.set_caption("WP-project")
+    # pygame.display.set_icon()
+    dev_mode = False
 
-# get screen setup
-screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("WP-project")
-# pygame.display.set_icon()
-dev_mode = False
+    # fonts
+    font_main = pygame.font.SysFont("Caslon Antique", 30)
+    font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 200)
+    font_damagetext_normal = pygame.font.SysFont(
+        "Caslon Antique", 36
+    )  # check if correct size
+    HealthBar_font = pygame.font.SysFont("Caslon Antique", 25)
 
-# fonts
-font_main = pygame.font.SysFont("Caslon Antique", 30)
-font_caslon_for_scaling = pygame.font.SysFont("Caslon Antique", 200)
-font_damagetext_normal = pygame.font.SysFont(
-    "Caslon Antique", 36
-)  # check if correct size
-HealthBar_font = pygame.font.SysFont("Caslon Antique", 25)
+    # load images
+    # menu module
+    menu_run_button = pygame.image.load("img/buttons/menu_run.png").convert_alpha()
+    menu_place_holder_button = pygame.image.load(
+        "img/buttons/menu_place_holder.png"
+    ).convert_alpha()
 
-# load images
-# menu module
-menu_run_button = pygame.image.load("img/buttons/menu_run.png").convert_alpha()
-menu_place_holder_button = pygame.image.load(
-    "img/buttons/menu_place_holder.png"
-).convert_alpha()
+    # battle module
+    battle_return_to_main_menu_button = pygame.image.load(
+        "img/buttons/return_to_main_menu.png"
+    ).convert_alpha()
 
-# battle module
-battle_return_to_main_menu_button = pygame.image.load(
-    "img/buttons/return_to_main_menu.png"
-).convert_alpha()
+    bottom_panel = pygame.image.load("img/Background/bottom_panel.png").convert_alpha()
+    battle_background = pygame.image.load(
+        "img/Background/battle_background.png"
+    ).convert_alpha()
 
-bottom_panel = pygame.image.load("img/Background/bottom_panel.png").convert_alpha()
-battle_background = pygame.image.load(
-    "img/Background/battle_background.png"
-).convert_alpha()
-
-# global classes FACTORIES
-BFactory_GreyText = ButtonFactory_GreyMiddleText()
-AttackSTFactory = AttackSTAbility_Factory()
-HealNTFactory = HealNTAbility_Factory()
+    # global classes FACTORIES
+    BFactory_GreyText = ButtonFactory_GreyMiddleText()
+    AttackSTFactory = AttackSTAbility_Factory()
+    HealNTFactory = HealNTAbility_Factory()
 
 
 # fill screen with black to reset vision
@@ -690,18 +690,18 @@ class Battle_module:
         return Next_module
 
 
-# module control
-class Module_names(Enum):
-    Exit_app = Exit_app_module()
-    Main_menu = MainMenu_module()
-    Battle = Battle_module()
+if __name__ == "__main__":
+    # module control
+    class Module_names(Enum):
+        Exit_app = Exit_app_module()
+        Main_menu = MainMenu_module()
+        Battle = Battle_module()
 
+    # main control
+    current_module = Module_names.Main_menu
 
-# main control
-current_module = Module_names.Main_menu
+    while current_module != Module_names.Exit_app:
+        reset_screen()
+        current_module = current_module.value.run(dev_mode)
 
-while current_module != Module_names.Exit_app:
-    reset_screen()
-    current_module = current_module.value.run(dev_mode)
-
-pygame.quit()
+    pygame.quit()
